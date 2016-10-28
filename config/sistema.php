@@ -3,12 +3,14 @@
 
 return [
 
-/*1   Administracion
+/* mu_formulario
+1   Administracion
 2   Bitacora
 3   Parametros
 4   Roles
 5   Usuarios
 6   Cambiar Contraseña
+
 */
 
     'ID_FORMULARIO_BITACORA' => 2,
@@ -16,9 +18,12 @@ return [
     'ID_FORMULARIO_ROL' => 4,
     'ID_FORMULARIO_USUARIO' => 5, 
     'ID_FORMULARIO_CAMBIAR_CONTRASENA' => 6, 
-    'ID_FORMULARIO_LOGIN' => 7, 
+    'ID_FORMULARIO_LOGIN' => 7,
+    'ID_FORMULARIO_CLIENTE' => 9,
+    'ID_FORMULARIO_CATEGORY' => 10,
+    'ID_FORMULARIO_ITEM' => 11,
 
-/*
+/* mu_acciones
 1   Nuevo
 2   Editar
 3   Eliminar
