@@ -16,13 +16,21 @@ use \base\Model\Rol;
 use \base\Model\Formulario;
 use \base\Classes\Menu;
 
+
+Route::resource('callback','callback\callbackController');
+
+Route::resource('stock','StockController');
+
+Route::resource('item','ItemController');
+
+Route::resource('client','ClientController');
+Route::resource('category','CategoryController');
+
+Route::resource('guz','umov\GuzzleController');
+
 /**
  * Ruta de pagina bienvenida
  */
-
-Route::resource('item','ItemController');
-Route::resource('client','ClientController');
-Route::resource('category','CategoryController');
 
 Route::get('bienvenido', function () {
     if (is_null(session('usuario'))){            

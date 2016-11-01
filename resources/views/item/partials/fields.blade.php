@@ -12,5 +12,5 @@
 </div>
 <div class="form-group">
     {!! Form::label('category_id', 'Categoria') !!}
-    {!! Form::select('category_id', $combobox, ['class' => 'form-control']) !!}
+    {!! Form::select('category_id', $categories, ['class' => 'form-control']) !!}
 </div>

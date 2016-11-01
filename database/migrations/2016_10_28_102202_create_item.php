@@ -18,7 +18,7 @@ class CreateItem extends Migration
             $table->decimal('precio',8,2);
             $table->integer('stock');
             $table->integer('category_id')->unsigned();
-            $table->foreign('category_id')->references('id')->on('Category')->onDelete('cascade');
+            //$table->foreign('category_id')->references('id')->on('Category')->onDelete('cascade');
             $table->boolean('active')->default(true);
             $table->softDeletes();
             $table->rememberToken();

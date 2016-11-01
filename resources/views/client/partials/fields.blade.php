@@ -8,9 +8,9 @@
 </div>
 <div class="form-group">
     {!! Form::label('latitud', 'Latitud') !!}
-    {!! Form::text('latitud', '-1.0', ['class' => 'form-control']) !!}
+    {!! Form::text('latitud', null, ['class' => 'form-control']) !!}
 </div>
 <div class="form-group">
     {!! Form::label('longitud', 'Longitud') !!}
-    {!! Form::text('longitud', '-1.0', ['class' => 'form-control']) !!}
+    {!! Form::text('longitud', null, ['class' => 'form-control']) !!}
 </div>

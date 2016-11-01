@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 use base\Http\Requests;
 use base\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redirect;
+
+use base\Model\umov\Umov;
+use Validator;
 
 
 class CategoryController extends Controller
@@ -26,6 +30,23 @@ class CategoryController extends Controller
                 //dd($this->permisos);
             }
         });
+        $this->token=Umov::getToken('master','formacionjuan','micrium2016');
+    }
+
+    public static $rules = array(
+        'nombre' => 'required|max:60',
+    );
+    //'ID_MU_ROL' => 'required|exists:mu_rol,ID'
+
+    public static function validar($data){
+        $reglas = self::$rules;
+        //$messages = self::$messages;
+        $messages = array(
+            // 'direccion.required' => session('parametros')[36]['VALOR'],
+            'nombre.required' => 'Campo :attribute requerido.',
+            'nombre.max' => "Maximo de caracteres excedido del campo :attribute, tiene mas de 60.",
+        );
+        return Validator::make($data, $reglas, $messages);
     }
 
     /**
@@ -58,9 +79,28 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $category = new Category($request->all());
-        $category->save();
-
+        try{
+            $v = Self::validar($request->all());
+            if($v->fails()){
+                $errors = $v->messages()->all();
+                return redirect()->back()->withErrors($v->messages())->withInput();
+            }
+            //----- umov
+            $category = new Category($request->all());
+            $category->save();
+            $id = $category->id;
+            $cadena = Umov::getStringCategory($id, $request->nombre);
+            $activities = Umov::postData($this->token, "subGroup",$cadena);
+            if(!is_null($activities)){
+                \Session::flash('message', 'la categoria se creo correctamente');
+            }else{
+                $category->delete();
+                \Session::flash('message', 'no se pudo guardar la categoria, error con uMov');
+            }
+            //------
+        }catch (\Exception $e){
+            return $e;
+        }
         return redirect()->route('category.index');
     }
 
@@ -97,10 +137,27 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $category = Category::findOrFail($id);
-
-        $category->fill($request->all());
-        $category->save();
+        try{
+            $v = Self::validar($request->all());
+            if($v->fails()){
+                $errors = $v->messages()->all();
+                return redirect()->back()->withErrors($v->messages())->withInput();
+            }
+            $cadena = Umov::getStringCategory($id, $request->nombre);
+            $activities = Umov::putData($this->token, "subGroup", $id,$cadena);
+            if(!is_null($activities)){
+                //se pudo guardar correctamente
+                $category = Category::findOrFail($id);
+                $category->fill($request->all());
+                $category->save();
+                \Session::flash('message', 'la categoria se actualizo correctamente');
+            }else{
+                \Session::flash('message', 'no se pudo actualizar la categoria, error con uMov');
+            }
+            //------
+        }catch (\Exception $e){
+            return $e;
+        }
 
         return redirect()->route('category.index');
     }
@@ -113,20 +170,31 @@ class CategoryController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $category = Category::findOrFail($id);
+        try{
+            $cat = Category::findOrFail($id);
+            //----- umov
+            $cadena = Umov::getStringCategoryDestroy();
+            $activities = Umov::destroyData($this->token, "subGroup", $id, $cadena);
+            if(!is_null($activities)){
+                //se pudo guardar correctamente
+                $cat->delete();
+                $message = $cat->nombre . ' El registro fue Eliminado';
 
-        $category->delete();
+                if ($request->ajax()){
+                    return response()->json([
+                        'id' => $cat->id,
+                        'message' => $message
+                    ]);
+                }
 
-        $message = $category->nombre . ' El registro fue Eliminado';
-
-        if ($request->ajax()){
-            return response()->json([
-                'id' => $category->id,
-                'message' => $message
-            ]);
+                \Session::flash('message', $message);
+            }else{
+                \Session::flash('message', 'no se pudo eliminar la categoria, error con uMov');
+            }
+            //------
+        }catch (\Exception $e){
+            return $e;
         }
-
-        \Session::flash('message', $message);
 
         return redirect()->route('category.index');
     }
