@@ -3,7 +3,7 @@
 namespace base\Http\Controllers;
 
 use base\Model\Item;
-use base\Model\Umov\Umov;
+use base\Model\umov\Umov;
 use base\Utils\MyLog;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -25,7 +25,7 @@ class StockController extends Controller
      */
     public function index()
     {
-        return "asdasd";
+        return redirect()->route('item.index');
     }
 
     /**
@@ -47,7 +47,7 @@ class StockController extends Controller
     public function store(Request $request)
     {
         $id=$request->input('id');
-        $activities = Umov::getCantSaleById($this->token, "activityHistoryHierarchical",$id);// 53471021
+        $activities = Umov::getCantSaleById($this->token, "activityHistoryHierarchical",53478835);// 53471021 53478835
         $pudo=self::actualizarItems($activities);
         return $pudo;
     }
@@ -115,6 +115,7 @@ class StockController extends Controller
             $cant = $it->stock;
             $it->stock = $cant - $cantidad;
             $it->save();
+            return true;
         }catch (ModelNotFoundException $e){
             MyLog::registrar('en actualizar Stock no se encontro el id del item -'.$id);
             return false;
