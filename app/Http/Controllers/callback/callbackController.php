@@ -52,10 +52,11 @@ class callbackController extends Controller
         $salida='hubo un error en el proceso de todo el servicio';
         try{
             $array = Convert::convertXMLtoJSON($request->input('data'));
-            $task = $array['alternativeIdentifier'];
-            //if (!isset($task[0])){
-            //    $task='';
-            //}
+            if (empty($array['alternativeIdentifier'])){
+                $task = '';
+            }else{
+                $task = $array['alternativeIdentifier'];
+            }
             $activities = $array['activityHistories'];
             foreach ($activities as $act) {
                 $salida='';

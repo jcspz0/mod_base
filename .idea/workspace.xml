@@ -3,13 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="57c2494f-4234-4793-9da8-1959f0fd9821" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mod_base.zip" afterPath="$PROJECT_DIR$/mod_base.zip" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.env" afterPath="$PROJECT_DIR$/.env" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/ItemController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/ItemController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/StockController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/StockController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/callback/callbackController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/callback/callbackController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Model/umov/Umov.php" afterPath="$PROJECT_DIR$/app/Model/umov/Umov.php" />
     </list>
     <ignored path="mod_base.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -151,8 +145,8 @@
       <file leaf-file-name="callbackController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/callback/callbackController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="94" column="116" selection-start-line="94" selection-start-column="116" selection-end-line="94" selection-end-column="116" />
+            <state relative-caret-position="392">
+              <caret line="68" column="20" selection-start-line="68" selection-start-column="20" selection-end-line="68" selection-end-column="20" />
               <folding>
                 <element signature="e#50#78#0#PHP" expanded="true" />
               </folding>
@@ -239,8 +233,8 @@
         <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/StockController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/ItemController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/callback/callbackController.php" />
         <option value="$PROJECT_DIR$/app/Model/umov/Umov.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/callback/callbackController.php" />
       </list>
     </option>
   </component>
@@ -738,7 +732,7 @@
       <workItem from="1478175676287" duration="26242000" />
       <workItem from="1478262106949" duration="17762000" />
       <workItem from="1478287405233" duration="6177000" />
-      <workItem from="1478521047066" duration="8875000" />
+      <workItem from="1478521047066" duration="10183000" />
     </task>
     <task id="LOCAL-00001" summary="aumentando el aucompletado">
       <created>1476715886383</created>
@@ -758,7 +752,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="171753000" />
+    <option name="totallyTimeSpent" value="173061000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1201,8 +1195,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/callback/callbackController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="94" column="116" selection-start-line="94" selection-start-column="116" selection-end-line="94" selection-end-column="116" />
+        <state relative-caret-position="392">
+          <caret line="68" column="20" selection-start-line="68" selection-start-column="20" selection-end-line="68" selection-end-column="20" />
           <folding>
             <element signature="e#50#78#0#PHP" expanded="true" />
           </folding>
