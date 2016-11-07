@@ -1,6 +1,6 @@
 @extends('template.admin')
 
-<!--@section('panel-title', session('parametros')[45]['VALOR'])-->
+@section('panel-title', session('parametros')[135]['VALOR'])
 
 @section('content')
 
@@ -17,22 +17,22 @@
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<div class="panel panel-default">
-				<div class="panel-heading">Clientes</div>
+				<div class="panel-heading">{{ session('parametros')[136]['VALOR'] }}</div>
 				<div class="panel-body">
 					{!! Form::open(['route' => 'category.index', 'method' => 'GET', 'class' => 'navbar-form navbar-left pull-right', 'rol' => 'search']) !!}
 						<div class="form-group">
 							{!! Form::text('nombre', null, ['class' => 'form-control', 'placeholder' => 'nombre de la categoria']) !!}
 						</div>
-						<button type="submit" class="btn btn-default">Buscar</button>
+						<button type="submit" class="btn btn-default">{{ session('parametros')[137]['VALOR'] }}</button>
 					{!! Form::close() !!}
 					<p>
 						@if ($acciones[config('sistema.ID_ACCION_NUEVO')])
 							<a class="btn btn-info" href="{{ route('category.create') }}" role="button">
-								Nueva Categoria
+								{{ session('parametros')[138]['VALOR'] }}
 							</a>
 						@endif
 					</p>
-					<p>Hay {{ $categories->total() }} clientes</p>
+					<p>Hay {{ $categories->total() }} categorias</p>
 					@include('category.partials.table')
 					{!! $categories->render() !!}
 				</div>

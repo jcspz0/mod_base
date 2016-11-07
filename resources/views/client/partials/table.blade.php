@@ -16,10 +16,10 @@
             <td>{{ $client->longitud }}</td>
             <td>
                 @if ($acciones[config('sistema.ID_ACCION_EDITAR')])
-                    <a href="{{ route('client.edit', $client) }}" class="">editar</a>
+                    <a href="{{ route('client.edit', $client) }}" class=""><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                 @endif
                 @if ($acciones[config('sistema.ID_ACCION_ELIMINAR')])
-                    <a href="#!" class="btn-delete">eliminar</a>
+                    <a href="#!" class="btn-delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
                 @endif
             </td>
         </tr>

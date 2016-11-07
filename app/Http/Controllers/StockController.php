@@ -15,7 +15,7 @@ class StockController extends Controller
 {
     public function __construct()
     {
-        $this->token=Umov::getToken('master','formacionjuan','micrium2016');
+        $this->token=session('parametros')[113]['VALOR'];
     }
 
     /**
@@ -47,7 +47,7 @@ class StockController extends Controller
     public function store(Request $request)
     {
         $id=$request->input('id');
-        $activities = Umov::getCantSaleById($this->token, "activityHistoryHierarchical",53478835);// 53471021 53478835
+        $activities = Umov::getCantSaleById($this->token, "activityHistoryHierarchical",$id);// 53471021 53478835
         $pudo=self::actualizarItems($activities);
         return $pudo;
     }

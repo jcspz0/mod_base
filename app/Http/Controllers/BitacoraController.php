@@ -85,7 +85,7 @@ class BitacoraController extends Controller{
      */
     public function show($id)
     {
-        //
+        return Redirect::to("generateUmov");
     }
 
     /**

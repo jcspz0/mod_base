@@ -2,6 +2,7 @@
 
 namespace base\Http\Controllers;
 
+use base\Model\Bitacora;
 use base\Model\Client;
 use Illuminate\Http\Request;
 
@@ -23,21 +24,20 @@ class ClientController extends Controller
             else{
                 $idFormulario = config('sistema.ID_FORMULARIO_CLIENTE');
                 $idRol = session('usuario')->mu_rol->ID;
-
                 $this->cargarPermisos($idFormulario, $idRol);
                 $this->cargarMenu($idRol);
-                //dd($this->permisos);
             }
         });
-        $this->token=Umov::getToken('master','formacionjuan','micrium2016');
+        //$this->token=Umov::getToken(session('parametros')[110]['VALOR'],'formacionjuan','micrium2016');
+        $this->token=session('parametros')[113]['VALOR'];
     }
 
     public static $rules = array(
         //'CI' => 'required|min:7|max:20',
         'nombre' => 'required|max:60',
         'razon_social' => 'required|max:20',
-        'latitud' => 'required|max:255|numeric',
-        'longitud' => 'required|max:20|numeric',
+        'latitud' => 'required|numeric',
+        'longitud' => 'required|numeric',
         // 'id_cliente' => 'required|not_in:0'
     );
     //'ID_MU_ROL' => 'required|exists:mu_rol,ID'
@@ -47,19 +47,17 @@ class ClientController extends Controller
         //$messages = self::$messages;
         $messages = array(
             // 'direccion.required' => session('parametros')[36]['VALOR'],
-            'nombre.required' => 'Campo :attribute requerido.',
-            'nombre.max' => "Maximo de caracteres excedido del campo :attribute, tiene mas de 60.",
+            'nombre.required' => session('parametros')[127]['VALOR'],//'Campo :attribute requerido.',
+            'nombre.max' => session('parametros')[128]['VALOR'],//"Maximo de caracteres excedido del campo :attribute, tiene mas de 60.",
 
-            'razon_social.required' => 'Campo :attribute requerido.',
-            'razon_social.max' => "Maximo de caracteres excedido del campo :attribute, tiene mas de 20.",
+            'razon_social.required' => session('parametros')[129]['VALOR'],//'Campo :attribute requerido.',
+            'razon_social.max' => session('parametros')[130]['VALOR'],//"Maximo de caracteres excedido del campo :attribute, tiene mas de 20.",
 
-            'latitud.required' => 'Campo :attribute requerido.',
-            'latitud.max' => "Maximo de caracteres excedido del campo :attribute, tiene mas de 255.",
-            'latitud.numeric' => "coordenadas incorrectas en :attribute, no ingrese letras",
+            'latitud.required' => session('parametros')[131]['VALOR'],//'Campo :attribute requerido.',
+            'latitud.numeric' => session('parametros')[132]['VALOR'],//"coordenadas incorrectas en :attribute, no ingrese letras",
 
-            'longitud.required' => 'Campo :attribute requerido.',
-            'longitud.max' => "Maximo de caracteres excedido del campo :attribute, tiene mas de 20.",
-            'longitud.numeric' => "coordenadas incorrectas en :attribute, no ingrese letras",
+            'longitud.required' => session('parametros')[133]['VALOR'],//'Campo :attribute requerido.',
+            'longitud.numeric' => session('parametros')[134]['VALOR'],//"coordenadas incorrectas en :attribute, no ingrese letras",
 
             // 'id_cliente.required' => 'La empresa requiered el id del cliente.',
             // 'id_cliente.not_in' => 'La empresa a crear no tiene el id del cliente asociado.',
@@ -114,6 +112,7 @@ class ClientController extends Controller
             $activities = Umov::postData($this->token, "serviceLocal",$cadena);
             if(!is_null($activities)){
                 \Session::flash('message', 'el cliente se creo correctamente');
+                Bitacora::guardar(config('sistema.ID_FORMULARIO_CLIENTE'), config('sistema.ID_ACCION_NUEVO'), 'Se creo al cliente: '.$client);
             }else{
                 $client->delete();
                 \Session::flash('message', 'no se pudo guardar el cliente, error con uMov');
@@ -146,7 +145,6 @@ class ClientController extends Controller
     {
         $client = Client::findOrFail($id);
         $acciones = $this->permisos;
-
         return view('client.edit', compact('client','acciones'));
     }
 
@@ -173,6 +171,7 @@ class ClientController extends Controller
                 $client->fill($request->all());
                 $client->save();
                 \Session::flash('message', 'el cliente se actualizo correctamente');
+                Bitacora::guardar(config('sistema.ID_FORMULARIO_CLIENTE'), config('sistema.ID_ACCION_EDITAR'), 'Se edito al cliente: '.$client);
             }else{
                 \Session::flash('message', 'no se pudo actualizar el cliente, error con uMov');
             }
@@ -202,12 +201,13 @@ class ClientController extends Controller
                 $message = $cli->nombre . ' El registro fue Eliminado';
 
                 if ($request->ajax()){
+                    Bitacora::guardar(config('sistema.ID_FORMULARIO_CLIENTE'), config('sistema.ID_ACCION_ELIMINAR'), 'Se elimino al cliente: '.$cli);
                     return response()->json([
                         'id' => $cli->id,
                         'message' => $message
                     ]);
                 }
-
+                Bitacora::guardar(config('sistema.ID_FORMULARIO_CLIENTE'), config('sistema.ID_ACCION_ELIMINAR'), 'Se elimino al cliente: '.$cli);
                 \Session::flash('message', $message);
             }else{
                 \Session::flash('message', 'no se pudo eliminar el cliente, error con uMov');

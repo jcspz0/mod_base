@@ -1,6 +1,6 @@
 @extends('template.admin')
 
-<!--@section('panel-title', session('parametros')[45]['VALOR'])-->
+@section('panel-title', session('parametros')[148]['VALOR'])
 
 @section('content')
 
@@ -17,18 +17,18 @@
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<div class="panel panel-default">
-				<div class="panel-heading">Clientes</div>
+				<div class="panel-heading">{{ session('parametros')[149]['VALOR'] }}</div>
 				<div class="panel-body">
 					{!! Form::open(['route' => 'item.index', 'method' => 'GET', 'class' => 'navbar-form navbar-left pull-right', 'rol' => 'search']) !!}
 						<div class="form-group">
 							{!! Form::text('nombre', null, ['class' => 'form-control', 'placeholder' => 'nombre del item']) !!}
 						</div>
-						<button type="submit" class="btn btn-default">Buscar</button>
+						<button type="submit" class="btn btn-default">{{ session('parametros')[150]['VALOR'] }}</button>
 					{!! Form::close() !!}
 					<p>
 						@if ($acciones[config('sistema.ID_ACCION_NUEVO')])
 							<a class="btn btn-info" href="{{ route('item.create') }}" role="button">
-								Nuevo Item
+								{{ session('parametros')[151]['VALOR'] }}
 							</a>
 						@endif
 					</p>

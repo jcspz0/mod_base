@@ -43,4 +43,13 @@ class Item extends Model
         return $this->belongsTo('\base\Model\Category','category_id', 'id');
     }
 
+    public function getCategoryIdAttribute(){
+        //dd($this->attributes['category_id']);
+        return $this->attributes['category_id'];
+    }
+
+    public function __toString(){
+        return '[ID='.$this->id.', NOMBRE='.$this->nombre.', PRECIO='.$this->precio.', STOCK='.$this->stock.', ID DE CATEGORIA='.$this->category_id.']';
+    }
+
 }

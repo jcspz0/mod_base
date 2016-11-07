@@ -13,6 +13,7 @@ use \base\Model\Usuario;
 use \base\Model\TipoParametro;
 use \base\Model\Parametro;
 use \base\Model\Bitacora;
+use \base\Utils\Convert;
 
 class TipoParametroController extends Controller{
 
@@ -154,6 +155,9 @@ class TipoParametroController extends Controller{
         $parametro = $parametro->getParametroByTipoParametro($idParametro, $idTipoParametro);
         $parametro->VALOR = $request['valor'];
         $parametro->DESCRIPCION_CAMPO = $request['descripcion'];
+        if($idParametro==112){
+            $parametro->VALOR = Convert::encrypt($request['valor']);
+        }
         $parametro->save();
         //return view("tipo_parametro.edit", compact('parametro')); 
         //return Redirect::to('rol');

@@ -16,8 +16,8 @@ class CreateClient extends Migration
             $table->increments('id');
             $table->string('nombre');
             $table->string('razon_social');
-            $table->decimal('latitud',15,8);
-            $table->decimal('longitud',15,8);
+            $table->decimal('latitud',15,14);
+            $table->decimal('longitud',15,14);
             $table->boolean('active')->default(true);
             $table->softDeletes();
             $table->rememberToken();

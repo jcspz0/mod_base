@@ -1,6 +1,6 @@
 @extends('template.admin')
 
-<!--@section('panel-title', session('parametros')[45]['VALOR'])-->
+<!--@section('panel-title', session('parametros')[114]['VALOR'])-->
 
 @section('content')
 
@@ -23,9 +23,12 @@
 				<div class="panel-body">
 					{!! Form::open(['route' => 'client.store', 'method' => 'POST']) !!}
 						@include('client.partials.fields')
-						<button type="submit" class="btn btn-default">Crear</button>
+						<button type="submit" class="btn btn-default">{{ session('parametros')[123]['VALOR'] }}</button>
 					{!! Form::close() !!}
 				</div>
+			</div>
+			<div>
+				<a href="{{ route('client.index') }}" class="btn btn-danger">{{session('parametros')[122]['VALOR']}}</a>
 			</div>
 		</div>
 	</div>

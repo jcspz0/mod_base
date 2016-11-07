@@ -31,13 +31,13 @@ class ItemController extends Controller
                 //dd($this->permisos);
             }
         });
-        $this->token=Umov::getToken('master','formacionjuan','micrium2016');
+        $this->token=session('parametros')[113]['VALOR'];
     }
 
     public static $rules = array(
         'nombre' => 'required|max:60',
-        'precio' => 'required|max:1000|numeric',
-        'stock' => 'required|max:15|numeric',
+        'precio' => 'required|numeric',
+        'stock' => 'required|max:9999|numeric',
         'category_id' => 'required|correct_category',
     );
     //'ID_MU_ROL' => 'required|exists:mu_rol,ID'
@@ -47,18 +47,17 @@ class ItemController extends Controller
         //$messages = self::$messages;
         $messages = array(
             // 'direccion.required' => session('parametros')[36]['VALOR'],
-            'nombre.required' => 'Campo :attribute requerido.',
-            'nombre.max' => "Maximo de caracteres excedido del campo :attribute, tiene mas de 60.",
+            'nombre.required' => session('parametros')[162]['VALOR'],//'Campo :attribute requerido.',
+            'nombre.max' => session('parametros')[163]['VALOR'],//"Maximo de caracteres excedido del campo :attribute, tiene mas de 60.",
 
-            'precio.required' => 'Campo :attribute requerido.',
-            'precio.max' => "Maximo de caracteres excedido del campo :attribute, tiene mas de 20.",
-            'precio.numeric' => "datos incorrectos en :attribute, no ingrese letras",
+            'precio.required' => session('parametros')[164]['VALOR'],//'Campo :attribute requerido.',
+            'precio.numeric' => session('parametros')[165]['VALOR'],//"datos incorrectos en :attribute, no ingrese letras",
 
-            'stock.required' => 'Campo :attribute requerido.',
-            'stock.max' => "Maximo de caracteres excedido del campo :attribute, tiene mas de 255.",
-            'stock.numeric' => "datos incorrectos en :attribute, no ingrese letras",
+            'stock.required' => session('parametros')[166]['VALOR'],//'Campo :attribute requerido.',
+            'stock.max' => session('parametros')[167]['VALOR'],//"Maximo de caracteres excedido del campo :attribute, tiene mas de 9999.",
+            'stock.numeric' => session('parametros')[168]['VALOR'],//"datos incorrectos en :attribute, no ingrese letras",
 
-            'category_id.correct_category' => "categoria incorrecta, escoja una categoria valida",
+            'category_id.correct_category' => session('parametros')[169]['VALOR'],//º"categoria incorrecta, escoja una categoria valida",
         );
         return Validator::make($data, $reglas, $messages);
     }
@@ -71,8 +70,11 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         //$clients = \DB::table('mu_client')->get();
-        $items = Item::name($request->get('nombre'))->orderBy('id', 'ASC')->paginate(5);
+        $items = Item::name($request->get('nombre'))->with('category')->orderBy('id', 'ASC')->paginate(5);
         //dd($clients);
+        //$items =  Item::name($request->get('nombre'))->orderBy('id', 'ASC')->paginate(5);
+        //$items = Item::find(2)->with('category')->get();
+        //dd($items->category_id);
         $acciones = $this->permisos;
         return view('item.index', compact('items','acciones'));
     }
@@ -114,6 +116,7 @@ class ItemController extends Controller
             $activities = Umov::postData($this->token, "item",$cadena);
             if(!is_null($activities)){
                 \Session::flash('message', 'el item se creo correctamente');
+                Bitacora::guardar(config('sistema.ID_FORMULARIO_ITEM'), config('sistema.ID_ACCION_NUEVO'), 'Se creo el item: '.$it);
             }else{
                 $it->delete();
                 \Session::flash('message', 'no se pudo guardar el item, error con uMov');
@@ -162,6 +165,7 @@ class ItemController extends Controller
      */
     public function update(Request $request, $id)
     {
+        dd($request);
         try{
             $v = Self::validar($request->all());
             if($v->fails()){
@@ -181,6 +185,7 @@ class ItemController extends Controller
                 $item->fill($request->all());
                 $item->save();
                 \Session::flash('message', 'el item se actualizo correctamente');
+                Bitacora::guardar(config('sistema.ID_FORMULARIO_ITEM'), config('sistema.ID_ACCION_EDITAR'), 'Se edito el item: '.$item);
             }else{
                 \Session::flash('message', 'no se pudo actualizar el item, error con uMov');
             }
@@ -211,6 +216,7 @@ class ItemController extends Controller
                 $message = $it->nombre . ' El registro fue Eliminado';
 
                 if ($request->ajax()){
+                    Bitacora::guardar(config('sistema.ID_FORMULARIO_ITEM'), config('sistema.ID_ACCION_ELIMINAR'), 'Se elimino el item: '.$it);
                     return response()->json([
                         'id' => $it->id,
                         'message' => $message
@@ -218,6 +224,7 @@ class ItemController extends Controller
                 }
 
                 \Session::flash('message', $message);
+                Bitacora::guardar(config('sistema.ID_FORMULARIO_ITEM'), config('sistema.ID_ACCION_ELIMINAR'), 'Se elimino el item: '.$it);
             }else{
                 \Session::flash('message', 'no se pudo eliminar el item, error con uMov');
             }

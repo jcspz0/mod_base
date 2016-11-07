@@ -55,7 +55,8 @@ function guardarPermiso(idRolTipoParametro, idTipoParametro, value){
 	$('#'+idspan).removeClass('text-success text-danger');
 	$("#"+idspan).text("registrando...");
 	$.ajax({
-		url: "/mu_base/public/guardarPermisoParametro",
+		//url: "/mod_base/public/guardarPermisoParametro",
+		url: "{{ route('guardarPermisoParametro')}}",
 		headers: {'X-CSRF-TOKEN': token},
 		type: 'POST',
 		dataType: 'json',

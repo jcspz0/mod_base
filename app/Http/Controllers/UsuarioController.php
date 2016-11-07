@@ -293,7 +293,7 @@ class UsuarioController extends Controller{
 
         $acciones = $this->permisos;
         //$menus = $this->menus;
-        $errors;
+        //$errors;
         if (session('usuario')->ID == $usuario->ID){
             $errors[] = session('parametros')[107]['VALOR']; 
         }

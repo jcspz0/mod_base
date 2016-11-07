@@ -2,6 +2,7 @@
 
 namespace base\Http\Controllers;
 
+use base\Model\Bitacora;
 use base\Model\Category;
 use Illuminate\Http\Request;
 
@@ -30,7 +31,7 @@ class CategoryController extends Controller
                 //dd($this->permisos);
             }
         });
-        $this->token=Umov::getToken('master','formacionjuan','micrium2016');
+        $this->token=session('parametros')[113]['VALOR'];
     }
 
     public static $rules = array(
@@ -43,8 +44,8 @@ class CategoryController extends Controller
         //$messages = self::$messages;
         $messages = array(
             // 'direccion.required' => session('parametros')[36]['VALOR'],
-            'nombre.required' => 'Campo :attribute requerido.',
-            'nombre.max' => "Maximo de caracteres excedido del campo :attribute, tiene mas de 60.",
+            'nombre.required' => session('parametros')[146]['VALOR'],//'Campo :attribute requerido.',
+            'nombre.max' => session('parametros')[147]['VALOR'],//"Maximo de caracteres excedido del campo :attribute, tiene mas de 60.",
         );
         return Validator::make($data, $reglas, $messages);
     }
@@ -93,6 +94,7 @@ class CategoryController extends Controller
             $activities = Umov::postData($this->token, "subGroup",$cadena);
             if(!is_null($activities)){
                 \Session::flash('message', 'la categoria se creo correctamente');
+                Bitacora::guardar(config('sistema.ID_FORMULARIO_CATEGORY'), config('sistema.ID_ACCION_NUEVO'), 'Se creo la categoria: '.$category);
             }else{
                 $category->delete();
                 \Session::flash('message', 'no se pudo guardar la categoria, error con uMov');
@@ -151,6 +153,7 @@ class CategoryController extends Controller
                 $category->fill($request->all());
                 $category->save();
                 \Session::flash('message', 'la categoria se actualizo correctamente');
+                Bitacora::guardar(config('sistema.ID_FORMULARIO_CATEGORY'), config('sistema.ID_ACCION_EDITAR'), 'Se edito la categoria: '.$category);
             }else{
                 \Session::flash('message', 'no se pudo actualizar la categoria, error con uMov');
             }
@@ -181,6 +184,7 @@ class CategoryController extends Controller
                 $message = $cat->nombre . ' El registro fue Eliminado';
 
                 if ($request->ajax()){
+                    Bitacora::guardar(config('sistema.ID_FORMULARIO_CATEGORY'), config('sistema.ID_ACCION_ELIMINAR'), 'Se elimino la categoria: '.$cat);
                     return response()->json([
                         'id' => $cat->id,
                         'message' => $message
@@ -188,6 +192,7 @@ class CategoryController extends Controller
                 }
 
                 \Session::flash('message', $message);
+                Bitacora::guardar(config('sistema.ID_FORMULARIO_CATEGORY'), config('sistema.ID_ACCION_ELIMINAR'), 'Se elimino la categoria: '.$cat);
             }else{
                 \Session::flash('message', 'no se pudo eliminar la categoria, error con uMov');
             }

@@ -38,4 +38,12 @@ class Client extends Model
         }
     }
 
+    public function category(){
+        return $this->belongsTo('\base\Model\Category','category_id', 'id');
+    }
+
+    public function __toString(){
+        return '[ID='.$this->id.', NOMBRE='.$this->nombre.', RAZON SOCIAL='.$this->razon_social.', LATITUD='.$this->latitud.', LONGITUD='.$this->longiud.']';
+    }
+
 }

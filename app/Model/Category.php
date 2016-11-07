@@ -41,4 +41,9 @@ class Category extends Model
     public function item(){
         return $this->hasMany('\base\Model\Item','category_id', 'id');
     }
+
+    public function __toString(){
+        return '[ID='.$this->id.', NOMBRE='.$this->nombre.']';
+    }
+
 }
