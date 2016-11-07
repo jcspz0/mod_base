@@ -57,7 +57,7 @@ class Umov extends Model
                 MyLog::registrar('2)[error exception response code is not a status 200');
                 //return null;
             }
-            MyLog::registrar('3)[error hubo un error en getToken');
+            MyLog::registrar('3)[hubo un error en getToken los datos fueron (login=>'.$login.',enviroment=>'.$enviroment.',pass=>'.$password.'])');
             //echo "hubo un problema en el retorno del token";
             return null;
         }
@@ -100,7 +100,7 @@ class Umov extends Model
                 MyLog::registrar('2)[error exception response code is not a status 200');
                 //return null;
             }
-            MyLog::registrar('3)[error hubo un error en getToken');
+            MyLog::registrar('3)[hubo un error en authentication los datos fueron (login=>'.$login.',enviroment=>'.$enviroment.',pass=>'.$password.'])');
             //echo "hubo un problema en el retorno del token";
             return null;
         }
@@ -148,7 +148,7 @@ class Umov extends Model
                 MyLog::registrar('2)[error exception response code is not a status 200');
                 //return null;
             }
-            MyLog::registrar('3)[error hubo un error en getToken');
+            MyLog::registrar('3)[un error en getAllDataId, los datos fueron (data=>'.$data);
             //echo "hubo un problema en el retorno del token";
             return null;
         }
@@ -198,7 +198,7 @@ class Umov extends Model
                 MyLog::registrar('2)[error exception response code is not a status 200');
                 //return null;
             }
-            MyLog::registrar('3)[error hubo un error en getToken');
+            MyLog::registrar('3)[hubo un error en getAllDataIdByCriteria, los datos fueron (data=>'.$data.',field=>'.$field.',value=>'.$value.')]');
             //echo "hubo un problema en el retorno del token";
             return null;
         }
@@ -236,7 +236,7 @@ class Umov extends Model
                 MyLog::registrar('2)[error exception response code is not a status 200');
                 //return null;
             }
-            MyLog::registrar('3)[error hubo un error en getToken');
+            MyLog::registrar('3)[hubo un error en getDataById, los datos fueron (data=>'.$data.',activity_id=>'.$activity_id.')]');
             //echo "hubo un problema en el retorno del token";
             return null;
         }
@@ -274,7 +274,7 @@ class Umov extends Model
                 MyLog::registrar('2)[error exception response code is not a status 200');
                 //return null;
             }
-            MyLog::registrar('3)[error hubo un error en getToken');
+            MyLog::registrar('3)[ hubo un error en getDataByAlternativeIdentifier, los datos fueron (data=>'.$data.',alternative_identifier=>'.$alternative_identifier.')]');
             //echo "hubo un problema en el retorno del token";
             return null;
         }
@@ -318,7 +318,7 @@ class Umov extends Model
                 MyLog::registrar('2)[error exception response code is not a status 200');
                 //return null;
             }
-            MyLog::registrar('3)[error hubo un error en getToken');
+            MyLog::registrar('3)[hubo un error en postDataById, los datos fueron (data=>'.$data.',activity_id=>'.$activity_id.',cadena=>'.$cadena.')]');
             //echo "hubo un problema en el retorno del token";
             return null;
         }
@@ -361,7 +361,7 @@ class Umov extends Model
                 MyLog::registrar('2)[error exception response code is not a status 200');
                 //return null;
             }
-            MyLog::registrar('3)[error hubo un error en getToken');
+            MyLog::registrar('3)[hubo un error en postDataByAlternativeIdentifier, los datos fueron (data=>'.$data.',alternative_identifier=>'.$alternative_identifier.',cadena=>'.$cadena.')]');
             //echo "hubo un problema en el retorno del token";
             return null;
         }
@@ -405,7 +405,7 @@ class Umov extends Model
                 MyLog::registrar('2)[error exception response code is not a status 200');
                 //return null;
             }
-            MyLog::registrar('3)[error hubo un error en getToken');
+            MyLog::registrar('3)[hubo un error en postData, los datos fueron (data=>'.$data.',cadena=>'.$cadena.')]');
             //echo "hubo un problema en el retorno del token";
             return null;
         }
@@ -449,7 +449,7 @@ class Umov extends Model
                 MyLog::registrar('2)[error exception response code is not a status 200');
                 //return null;
             }
-            MyLog::registrar('3)[error hubo un error en getToken');
+            MyLog::registrar('3)[hubo un error en putData, los datos fueron (data=>'.$data.',alternativeIdentifier=>'.$alternativeIdentifier.',cadena=>'.$cadena.')]');
             //echo "hubo un problema en el retorno del token";
             return null;
         }
@@ -493,7 +493,7 @@ class Umov extends Model
                 MyLog::registrar('2)[error exception response code is not a status 200');
                 //return null;
             }
-            MyLog::registrar('3)[error hubo un error en getToken');
+            MyLog::registrar('3)[hubo un error en destroyData, los datos fueron (data=>'.$data.',alternativeIdentifier=>'.$alternativeIdentifier.',cadena=>'.$cadena.')]');
             //echo "hubo un problema en el retorno del token";
             return null;
         }
@@ -572,7 +572,7 @@ class Umov extends Model
                 MyLog::registrar('2)[error exception response code is not a status 200');
                 //return null;
             }
-            MyLog::registrar('3)[error hubo un error en getToken');
+            MyLog::registrar('3)[hubo un error en getActivityHistoryHierarchicalById, los datos fueron (data=>'.$data.',activity_id=>'.$activity_id.')]');
             //echo "hubo un problema en el retorno del token";
             return null;
         }
@@ -634,17 +634,18 @@ class Umov extends Model
             }
             return $result;
         }catch (RequestException $e) {
+            dd($e);
             //echo Psr7\str($e->getRequest());
             if ($e->hasResponse()) {
                 //echo Psr7\str($e->getResponse());
-                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse());
+                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse()->getBody());
             }
             if ($e->getResponse()->getStatusCode()!=200){
                 //echo "statusCode != 200";
                 MyLog::registrar('2)[error exception response code is not a status 200');
                 //return null;
             }
-            MyLog::registrar('3)[error hubo un error en getToken');
+            MyLog::registrar('3)[hubo un error en getCantSaleById, los datos fueron (data=>'.$data.',activity_id=>'.$activity_id.')]');
             //echo "hubo un problema en el retorno del token";
             return null;
         }
@@ -684,7 +685,7 @@ class Umov extends Model
                 MyLog::registrar('2)[error exception response code is not a status 200');
                 //return null;
             }
-            MyLog::registrar('3)[error hubo un error en getToken');
+            MyLog::registrar('3)[hubo un error en getStockUMOV, los datos fueron (item_id=>'.$item_id.')]');
             //echo "hubo un problema en el retorno del token";
             return null;
         }
@@ -724,7 +725,7 @@ class Umov extends Model
                 MyLog::registrar('2)[error exception response code is not a status 200');
                 //return null;
             }
-            MyLog::registrar('3)[error hubo un error en getToken');
+            MyLog::registrar('3)[hubo un error en getStockUMOV, los datos fueron (item_id=>'.$item_id.',cant=>'.$cant.')]');
             //echo "hubo un problema en el retorno del token";
             return null;
         }

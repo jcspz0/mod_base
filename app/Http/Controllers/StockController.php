@@ -8,6 +8,8 @@ use base\Utils\MyLog;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
+use base\Model\Parametro;
+
 use base\Http\Requests;
 use base\Http\Controllers\Controller;
 
@@ -15,7 +17,16 @@ class StockController extends Controller
 {
     public function __construct()
     {
-        $this->token=session('parametros')[113]['VALOR'];
+        //$this->token=session('parametros')[113]['VALOR'];
+        try{
+            $parametro = Parametro::findOrfail(113);
+            $this->token=$parametro->VALOR;
+        }catch (ModelNotFoundException $e){
+            MyLog::registrar('error de token en stockController, el constructor no obtuvo el token de los parametros 113');
+            return false;
+        }catch (\Exception $e){
+            MyLog::registrar('error en stockController, hubo un error en el constructor');
+        }
     }
 
     /**

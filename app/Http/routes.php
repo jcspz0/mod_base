@@ -23,6 +23,7 @@ Route::resource('callback','callback\callbackController');
 
 Route::resource('stock','StockController');
 
+
 Route::resource('item','ItemController');
 
 Route::resource('client','ClientController');

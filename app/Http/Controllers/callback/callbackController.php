@@ -70,7 +70,7 @@ class callbackController extends Controller
                     //aqui tengo q mandar el id a stock para q procese
                     try{
                         $client = new Client([
-                            'base_uri' => 'http://localhost/mod_base/public/',
+                            'base_uri' => env('URL_CALLBACK'),
                         ]);
                         $tipo_dato = 'form_params';
                         $response = $client->request('POST','stock',
@@ -80,6 +80,8 @@ class callbackController extends Controller
                                 ]
                             ]);
                         $body = $response->getBody();
+                        MyLog::registrar('se termino de analizar todos los activity_history');
+                        return 'ok';
                     }catch (RequestException $e){
                         if ($e->getResponse()->getStatusCode()!=200){
                             echo "statusCode != 200 en postData";
@@ -90,8 +92,8 @@ class callbackController extends Controller
                     }
                 }
             }
-            MyLog::registrar('se termino de analizar todos los activity_history');
-            return 'ok';
+            MyLog::registrar('salio del try catch del callback sin terminar correctamente la actualizacion del stock');
+            return '500';
             //return $salida;
         }catch(\Exception $e){
             if($request->input('data') == null){
@@ -152,7 +154,7 @@ class callbackController extends Controller
     {
         try{
             $client = new Client([
-                'base_uri' => 'http://localhost/mod_base/public/',
+                'base_uri' => env('URL_CALLBACK'),
             ]);
             $tipo_dato = 'form_params';
             foreach ($items as $item){

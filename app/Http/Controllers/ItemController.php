@@ -4,6 +4,7 @@ namespace base\Http\Controllers;
 
 use base\Model\Category;
 use base\Model\Item;
+use base\Model\Bitacora;
 use base\Utils\MyLog;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -165,7 +166,6 @@ class ItemController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request);
         try{
             $v = Self::validar($request->all());
             if($v->fails()){
