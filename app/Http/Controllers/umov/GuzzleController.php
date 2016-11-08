@@ -29,7 +29,7 @@ class GuzzleController extends Controller
         $enviroment = 'formacionjuan';
         $password = 'micrium2016';
         $client = new Client([
-            'base_uri' => 'http://localhost/mod_base/public/',
+            'base_uri' => env('URL_CALLBACK'),
             ]);
         $tipo_dato = 'form_params';
         $response = $client->request('POST','guz',
@@ -61,47 +61,10 @@ class GuzzleController extends Controller
      */
     public function store(Request $request)
     {
-        $id = $request->input('id');
         $token = Umov::getToken('master', 'formacionjuan', 'micrium2016');
-        $activities = Umov::getCantSaleById($token, "activityHistoryHierarchical", 53471021);// 53471021
-        $pudo=self::actualizarStock($activities);
-        if($token == null){
-            return "ha fallado el getActiviries";
-        }
-        if ($pudo){
-            return '200';
-        }else{
-            return '500';
-        }
-    }
-
-    private static function actualizarStock($items)
-    {
-        try{
-            $client = new Client([
-                'base_uri' => 'http://localhost/mod_base/public/',
-            ]);
-            $tipo_dato = 'form_params';
-            foreach ($items as $item){
-                $response = $client->request('POST','stock',
-                    [ $tipo_dato =>
-                        [
-                            'id' => $item['alternativeidentifier'] ,
-                            'cantidad' => $item['cantidad'] ,
-                        ]
-                    ]);
-                $body = $response->getBody();
-            }
-            return true;
-        }catch (RequestException $e){
-            if ($e->getResponse()->getStatusCode()!=200){
-                echo "statusCode != 200 en postData";
-                return false;
-            }
-        }catch (\Exception $e){
-            return false;
-        }
-        
+        $activities = Umov::getAllDataId($token, "activityHistory");// 53471021
+        dd($activities);
+        return $activities;
     }
 
     /**

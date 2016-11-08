@@ -50,7 +50,7 @@ class Umov extends Model
             //echo Psr7\str($e->getRequest());
             if ($e->hasResponse()) {
                 //echo Psr7\str($e->getResponse());
-                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse());
+                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse()->getBody());
             }
             if ($e->getResponse()->getStatusCode()!=200){
                 //echo "statusCode != 200";
@@ -93,7 +93,7 @@ class Umov extends Model
             //echo Psr7\str($e->getRequest());
             if ($e->hasResponse()) {
                 //echo Psr7\str($e->getResponse());
-                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse());
+                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse()->getBody());
             }
             if ($e->getResponse()->getStatusCode()!=200){
                 //echo "statusCode != 200";
@@ -141,7 +141,7 @@ class Umov extends Model
             //echo Psr7\str($e->getRequest());
             if ($e->hasResponse()) {
                 //echo Psr7\str($e->getResponse());
-                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse());
+                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse()->getBody());
             }
             if ($e->getResponse()->getStatusCode()!=200){
                 //echo "statusCode != 200";
@@ -191,7 +191,7 @@ class Umov extends Model
             //echo Psr7\str($e->getRequest());
             if ($e->hasResponse()) {
                 //echo Psr7\str($e->getResponse());
-                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse());
+                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse()->getBody());
             }
             if ($e->getResponse()->getStatusCode()!=200){
                 //echo "statusCode != 200";
@@ -229,7 +229,7 @@ class Umov extends Model
             //echo Psr7\str($e->getRequest());
             if ($e->hasResponse()) {
                 //echo Psr7\str($e->getResponse());
-                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse());
+                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse()->getBody());
             }
             if ($e->getResponse()->getStatusCode()!=200){
                 //echo "statusCode != 200";
@@ -267,7 +267,7 @@ class Umov extends Model
             //echo Psr7\str($e->getRequest());
             if ($e->hasResponse()) {
                 //echo Psr7\str($e->getResponse());
-                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse());
+                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse()->getBody());
             }
             if ($e->getResponse()->getStatusCode()!=200){
                 //echo "statusCode != 200";
@@ -311,7 +311,7 @@ class Umov extends Model
             //echo Psr7\str($e->getRequest());
             if ($e->hasResponse()) {
                 //echo Psr7\str($e->getResponse());
-                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse());
+                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse()->getBody());
             }
             if ($e->getResponse()->getStatusCode()!=200){
                 //echo "statusCode != 200";
@@ -354,7 +354,7 @@ class Umov extends Model
             //echo Psr7\str($e->getRequest());
             if ($e->hasResponse()) {
                 //echo Psr7\str($e->getResponse());
-                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse());
+                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse()->getBody());
             }
             if ($e->getResponse()->getStatusCode()!=200){
                 //echo "statusCode != 200";
@@ -398,7 +398,7 @@ class Umov extends Model
             //echo Psr7\str($e->getRequest());
             if ($e->hasResponse()) {
                 //echo Psr7\str($e->getResponse());
-                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse());
+                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse()->getBody());
             }
             if ($e->getResponse()->getStatusCode()!=200){
                 //echo "statusCode != 200";
@@ -442,7 +442,7 @@ class Umov extends Model
             //echo Psr7\str($e->getRequest());
             if ($e->hasResponse()) {
                 //echo Psr7\str($e->getResponse());
-                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse());
+                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse()->getBody());
             }
             if ($e->getResponse()->getStatusCode()!=200){
                 //echo "statusCode != 200";
@@ -486,7 +486,7 @@ class Umov extends Model
             //echo Psr7\str($e->getRequest());
             if ($e->hasResponse()) {
                 //echo Psr7\str($e->getResponse());
-                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse());
+                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse()->getBody());
             }
             if ($e->getResponse()->getStatusCode()!=200){
                 //echo "statusCode != 200";
@@ -532,6 +532,37 @@ class Umov extends Model
         return $cadena = '<serviceLocal><active>false</active></serviceLocal>';
     }
 
+    public static function getStringTask($ida, $agent_ida, $client_ida, $date, $hour, $activity_ida){
+        return $cadena = '<schedule>
+                            <alternativeIdentifier>'.$ida.'</alternativeIdentifier>
+                            <agent>
+                                <alternativeIdentifier>'.$agent_ida.'</alternativeIdentifier>
+                            </agent>
+                            <serviceLocal>
+                                <alternativeIdentifier>'.$client_ida.'</alternativeIdentifier>
+                            </serviceLocal>
+                            <date>'.$date.'</date>
+                            <hour>'.$hour.'</hour>
+                            <activitiesOrigin>4</activitiesOrigin>
+                            <activityRelationship>
+                                <activity>
+                                    <alternativeIdentifier>'.$activity_ida.'</alternativeIdentifier>
+                                </activity>
+                            </activityRelationship>
+                            <customFields>
+                                 <callback>'.env('URL_CALLBACK').'callback</callback>
+                            </customFields>
+                        </schedule>';
+    }
+
+    public static function getStringTaskDestroy(){
+        return $cadena='<schedule>
+                          <situation><id>70</id></situation>
+                        </schedule>';
+    }
+
+
+
     //------------- todo referido al callback
 
     public static function getActivityHistoryHierarchicalById($token, $data, $activity_id)
@@ -565,7 +596,7 @@ class Umov extends Model
             //echo Psr7\str($e->getRequest());
             if ($e->hasResponse()) {
                 //echo Psr7\str($e->getResponse());
-                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse());
+                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse()->getBody());
             }
             if ($e->getResponse()->getStatusCode()!=200){
                 //echo "statusCode != 200";
@@ -678,7 +709,7 @@ class Umov extends Model
             //echo Psr7\str($e->getRequest());
             if ($e->hasResponse()) {
                 //echo Psr7\str($e->getResponse());
-                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse());
+                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse()->getBody());
             }
             if ($e->getResponse()->getStatusCode()!=200){
                 //echo "statusCode != 200";

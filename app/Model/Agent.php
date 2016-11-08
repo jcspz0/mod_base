@@ -5,7 +5,7 @@ namespace base\Model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Client extends Model
+class Agent extends Model
 {
     use SoftDeletes;
     /**
@@ -13,14 +13,14 @@ class Client extends Model
      *
      * @var string
      */
-    protected $table = 'mu_client';
+    protected $table = 'mu_agent';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['nombre', 'razon_social', 'latitud', 'longitud'];
+    protected $fillable = ['nombre'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -38,16 +38,11 @@ class Client extends Model
         }
     }
 
-    public function category(){
-        return $this->belongsTo('\base\Model\Category','category_id', 'id');
-    }
-
     public function task(){
         return $this->hasMany('\base\Model\Task','agent_id', 'id');
     }
 
     public function __toString(){
-        return '[ID='.$this->id.', NOMBRE='.$this->nombre.', RAZON SOCIAL='.$this->razon_social.', LATITUD='.$this->latitud.', LONGITUD='.$this->longiud.']';
+        return '[ID='.$this->id.', NOMBRE='.$this->nombre.']';
     }
-
 }

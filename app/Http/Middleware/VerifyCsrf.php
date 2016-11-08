@@ -16,6 +16,7 @@ class VerifyCsrf extends \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken
         'callback',
         'guz',
         'stock',
+        'task',
     ];
 
     /**

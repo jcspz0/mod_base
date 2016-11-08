@@ -23,10 +23,13 @@ Route::resource('callback','callback\callbackController');
 
 Route::resource('stock','StockController');
 
+Route::resource('task', 'TaskController');
 
 Route::resource('item','ItemController');
 
 Route::resource('client','ClientController');
+Route::get('clientsync', ['as'=> 'clientsync', 'uses' => 'ClientController@clientSync']);
+
 Route::resource('category','CategoryController');
 
 Route::resource('guz','umov\GuzzleController');

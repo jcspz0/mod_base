@@ -22,6 +22,7 @@ return [
     'ID_FORMULARIO_CLIENTE' => 9,
     'ID_FORMULARIO_CATEGORY' => 10,
     'ID_FORMULARIO_ITEM' => 11,
+    'ID_FORMULARIO_TASK' => 13,
 
 /* mu_acciones
 1   Nuevo

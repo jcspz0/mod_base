@@ -13,7 +13,7 @@
             <td>{{ $item->nombre }}</td>
             <td>{{ $item->precio }}</td>
             <td>{{ $item->stock }}</td>
-            <td>{{ $item->category_id }}</td>
+            <td>{{ $item->category->nombre }}</td>
             <td>
                 @if ($acciones[config('sistema.ID_ACCION_EDITAR')])
                     <a href="{{ route('item.edit', $item) }}" class=""><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>

@@ -4,6 +4,7 @@ namespace base\Http\Controllers;
 
 use base\Model\Category;
 use base\Model\Item;
+
 use base\Model\Bitacora;
 use base\Utils\MyLog;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -70,9 +71,7 @@ class ItemController extends Controller
      */
     public function index(Request $request)
     {
-        //$clients = \DB::table('mu_client')->get();
         $items = Item::name($request->get('nombre'))->with('category')->orderBy('id', 'ASC')->paginate(5);
-        //dd($clients);
         //$items =  Item::name($request->get('nombre'))->orderBy('id', 'ASC')->paginate(5);
         //$items = Item::find(2)->with('category')->get();
         //dd($items->category_id);
@@ -206,7 +205,6 @@ class ItemController extends Controller
     {
         try{
             $it = Item::findOrFail($id);
-            $ida=$it->ida;
             //----- umov
             $cadena = Umov::getStringItemDestroy();
             $activities = Umov::destroyData($this->token, "item", $id, $cadena);

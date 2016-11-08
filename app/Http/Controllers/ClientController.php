@@ -218,4 +218,8 @@ class ClientController extends Controller
         }
         return redirect()->route('client.index');
     }
+
+    public function clientSync(){
+        
+    }
 }
