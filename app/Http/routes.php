@@ -29,6 +29,7 @@ Route::resource('item','ItemController');
 
 Route::resource('client','ClientController');
 Route::get('clientsync', ['as'=> 'clientsync', 'uses' => 'ClientController@clientSync']);
+Route::post('taskUpdate', ['as'=> 'taskUpdate', 'uses' => 'StockController@changeStatus']);
 
 Route::resource('category','CategoryController');
 

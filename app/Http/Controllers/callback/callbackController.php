@@ -82,15 +82,21 @@ class callbackController extends Controller
                             ]);
                         $body = $response->getBody();
                         MyLog::registrar('se termino de analizar todos los activity_history');
-                        return 'ok';
+                        $response = $client->request('POST','taskUpdate',
+                            [ $tipo_dato =>
+                                [
+                                    'id' => $a['id'] ,
+                                ]
+                            ]);
+                        return '200';
                     }catch (RequestException $e){
                         if ($e->getResponse()->getStatusCode()!=200){
                             echo "statusCode != 200 en postData";
-                            return false;
+                            return '500';
                         }
-                    }catch (\Exception $e){
-                        return false;
-                    }
+                    }/*catch (\Exception $e){
+                        return '500';
+                    }*/
                 }
             }
             MyLog::registrar('salio del try catch del callback sin terminar correctamente la actualizacion del stock');
@@ -99,10 +105,10 @@ class callbackController extends Controller
         }catch(\Exception $e){
             if($request->input('data') == null){
                 MyLog::registrar('no se enviaron bien los datos al servicio || la variable enviada no tiene el nombre de data');
-                return $e;
+                return '500';
             }
             MyLog::registrar('hubo alguna excepcion || el Request es el siguiente-> '.$request->input('data'));
-            return $e;
+            return '500';
         }
     }
 

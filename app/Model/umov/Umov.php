@@ -561,6 +561,24 @@ class Umov extends Model
                         </schedule>';
     }
 
+    public static function getStringNotification($agent_ida, $mensaje){
+        return $cadena='<scheduleNotification>
+                            <message>'.$mensaje.'</message>
+                            <agents><agent>
+                                <alternativeIdentifier>'.$agent_ida.'</alternativeIdentifier>
+                            </agent></agents>
+                        </scheduleNotification>';
+    }
+
+    public static function getStringMessage($agent_ida, $mensaje){
+        return $cadena='<message>
+                            <sender><alternativeIdentifier>master</alternativeIdentifier></sender>
+                            <recipients>
+                                <recipient><alternativeIdentifier>'.$agent_ida.'</alternativeIdentifier></recipient>
+                            </recipients><description>'.$mensaje.'</description><sendNotification/>
+                        </message>';
+    }
+
 
 
     //------------- todo referido al callback
@@ -643,25 +661,48 @@ class Umov extends Model
                 $i=0;
                 foreach ($secciones as $items){
                     foreach ($items['items'] as $item){
-                        if (isset($item[0])){
+                        if (isset($item[0])){//este if sirve para saber si vino un solo item o varios
                             foreach ($item as $it){
-                                if (isset($it['fields']['field'][3]['fieldHistory']['value'])){
+                                //----------------
+                                foreach ($it['fields']['field'] as $campo){
+                                    if($campo['alternativeIdentifier']=='cantidad'){
+                                        $result[$i] = [ 'id' => $it['id'], 'alternativeidentifier' => $it['alternativeIdentifier'], 'descripcion' => $it['description'], 'cantidad' => $campo['fieldHistory']['value'] ];
+                                        $i++;
+                                    }else{
+                                        //no tiene la cantidad en el item que mando
+                                    }
+                                }
+                                //----------------
+                                /*if (isset($it['fields']['field'][3]['fieldHistory']['value'])){
                                     $result[$i] = [ 'id' => $it['id'], 'alternativeidentifier' => $it['alternativeIdentifier'], 'descripcion' => $it['description'], 'cantidad' => $it['fields']['field'][4]['fieldHistory']['value'] ];
+                                    $i++;
+                                }else{
+                                    //no tiene la cantidad en el item que mando
+                                }*/
+                            }
+                        }else{
+                            //--------------
+                            foreach ($item['fields']['field'] as $campo){
+                                if($campo['alternativeIdentifier']=='cantidad'){
+                                    $result[$i] = [ 'id' => $item['id'], 'alternativeidentifier' => $item['alternativeIdentifier'], 'descripcion' => $item['description'], 'cantidad' => $campo['fieldHistory']['value'] ];
                                     $i++;
                                 }else{
                                     //no tiene la cantidad en el item que mando
                                 }
                             }
-                        }else{
-                            if (isset($item['fields']['field'][3]['fieldHistory']['value'])){
+                            //-------------
+                            /*if (isset($item['fields']['field'][3]['fieldHistory']['value'])){
                                 $result[$i] = [ 'id' => $item['id'], 'alternativeidentifier' => $item['alternativeIdentifier'], 'descripcion' => $item['description'], 'cantidad' => $item['fields']['field'][4]['fieldHistory']['value'] ];
                                 $i++;
                             }else{
                                 //no es un campo que contenga cantidades, o no esta posicionado donde deberia
-                            }
+                            }*/
                         }
                     }
                 }
+            }
+            if(empty($result)){
+                throw new \Exception('no contiene un campo cantidad',20);
             }
             return $result;
         }catch (RequestException $e) {
@@ -677,6 +718,94 @@ class Umov extends Model
                 //return null;
             }
             MyLog::registrar('3)[hubo un error en getCantSaleById, los datos fueron (data=>'.$data.',activity_id=>'.$activity_id.')]');
+            //echo "hubo un problema en el retorno del token";
+            return null;
+        }catch (\Exception $e){
+            if($e->getCode()==20){
+                MyLog::registrar('4)[la activiry_id en getCantSaleById no contiene el campo cantidad]->'.$activity_id);
+            }
+            return null;
+        }
+    }
+
+    public static function getStatusTaskById($token, $data, $activity_id)
+    {
+        /**
+         * devuelve todos los valores de una actividad en especifico por el criterio de busqueda del ID
+         *
+         * @access public
+         * @param $token es el token del ambiente
+         * @param $activity_id es el id de la actividad que se va a buscar
+         * @return array $result retorna un array con todos
+         * @throws Exception no se pudo conectar con uMov
+         */
+        $client = new Client([
+            'base_uri' => 'https://api.umov.me/CenterWeb/api/'.$token.'/',
+        ]);
+        $url=$data.'/'.$activity_id.'.xml';
+        try{
+            //$result=null;
+            $response = $client->request('GET',$url);
+            $array = Convert::convertXMLtoJSON($response->getBody());
+            $ida=$array['schedule']['alternativeIdentifier'];
+            if($array['schedule']['situation']['id']=='50'){
+                return $ida;
+            }else{
+                return null;
+            }
+        }catch (RequestException $e) {
+            //echo Psr7\str($e->getRequest());
+            if ($e->hasResponse()) {
+                //echo Psr7\str($e->getResponse());
+                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse()->getBody());
+            }
+            if ($e->getResponse()->getStatusCode()!=200){
+                //echo "statusCode != 200";
+                MyLog::registrar('2)[error exception response code is not a status 200');
+                //return null;
+            }
+            MyLog::registrar('3)[hubo un error en getStatusTaskById, los datos fueron (data=>'.$data.',activity_id=>'.$activity_id.')]');
+            //echo "hubo un problema en el retorno del token";
+            return null;
+        }
+    }
+
+    public static function getAgentId($token, $data, $activity_id)
+    {
+        /**
+         * devuelve todos los valores de una actividad en especifico por el criterio de busqueda del ID
+         *
+         * @access public
+         * @param $token es el token del ambiente
+         * @param $activity_id es el id de la actividad que se va a buscar
+         * @return array $result retorna un array con todos
+         * @throws Exception no se pudo conectar con uMov
+         */
+        $client = new Client([
+            'base_uri' => 'https://api.umov.me/CenterWeb/api/'.$token.'/',
+        ]);
+        $url=$data.'/'.$activity_id.'.xml';
+        try{
+            //$result=null;
+            $response = $client->request('GET',$url);
+            $array = Convert::convertXMLtoJSON($response->getBody());
+            if(isset($array['schedule']['agent']['alternativeIdentifier'])){
+                return $array['schedule']['agent']['alternativeIdentifier'];
+            }else{
+                return null;
+            }
+        }catch (RequestException $e) {
+            //echo Psr7\str($e->getRequest());
+            if ($e->hasResponse()) {
+                //echo Psr7\str($e->getResponse());
+                MyLog::registrar('1)[error exception has response]-> '.$e->getResponse()->getBody());
+            }
+            if ($e->getResponse()->getStatusCode()!=200){
+                //echo "statusCode != 200";
+                MyLog::registrar('2)[error exception response code is not a status 200');
+                //return null;
+            }
+            MyLog::registrar('3)[hubo un error en getStatusTaskById, los datos fueron (data=>'.$data.',activity_id=>'.$activity_id.')]');
             //echo "hubo un problema en el retorno del token";
             return null;
         }
@@ -761,5 +890,5 @@ class Umov extends Model
             return null;
         }
     }
-    
+
 }

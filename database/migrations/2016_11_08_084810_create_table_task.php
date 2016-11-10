@@ -15,6 +15,7 @@ class CreateTableTask extends Migration
         Schema::create('mu_task', function (Blueprint $table) {
             $table->increments('id');
             $table->string('ida');
+            $table->string('estado')->default('enviado');
             $table->integer('agent_id')->unsigned();
             $table->foreign('agent_id')->references('id')->on('mu_agent')->onDelete('cascade');
             $table->integer('activity_id')->unsigned();

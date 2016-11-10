@@ -7,6 +7,7 @@
         <th>actividad</th>
         <th>fecha</th>
         <th>hora</th>
+        <th>estado</th>
         <th>Acciones</th>
     </tr>
     @foreach($tasks as $task)
@@ -18,6 +19,7 @@
             <td>{{ $task->activity->nombre }}</td>
             <td>{{ $task->date }}</td>
             <td>{{ $task->hour }}</td>
+            <td>{{ $task->estado }}</td>
             <td>
                 @if ($acciones[config('sistema.ID_ACCION_EDITAR')])
                     <a href="{{ route('task.edit', $task) }}" class=""><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
